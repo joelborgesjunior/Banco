@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Banco.TiposDeConta;
+using System.Linq;
 
 
 // Class da abstração de conta
@@ -56,7 +57,7 @@ namespace Banco
             }
         }
 
-    public static void ListarConta(List<Conta> c)
+        public static void ListarConta(List<Conta> c)
         {
             Console.Clear();
             Console.WriteLine("LISTA DE CONTAS DO BANCO:");
@@ -65,6 +66,26 @@ namespace Banco
                 Console.WriteLine($"{c[i].Numero} - {c[i].Nome}");
             }
         }
+
+        public static void MostrarSaldo(List<Conta> c)
+        {
+            int escolha;
+
+            Console.WriteLine("Selecione uma Conta:");
+            escolha = Convert.ToInt32(Console.ReadLine());
+
+            for (int i = 0; i < c.Count; i++)
+            {
+                if (c[i].Numero == escolha)
+                {
+                    Console.WriteLine($"O Saldo da Conta Número {c[i].Numero} de {c[i].Nome} é de {c[i].Saldo.ToString("C")}.");
+                    Console.Read();
+                    break;
+                }
+            }
+
+        }
+
 
         public void RemoverConta()
         {
@@ -76,9 +97,11 @@ namespace Banco
 
         }
 
-        public void SomaValorContas()
+        public static void SomaValorContas(List<Conta> c)
         {
-
+            Console.Clear();
+            Console.WriteLine($"O Valor total das contas do banco é de: {c.Sum(c => c.Saldo).ToString("C")}");
+            Console.Read();
         }
 
     }

@@ -38,10 +38,23 @@ namespace Banco
                         Console.Clear();
                         Conta.CriarConta(c);
                         break;
+                    case "2":
+                        Console.Clear();
+                        Conta.ListarConta(c);
+                        OperacoesBasicas.Sacar(c);
+                        break;
                     case "3":
                         Console.Clear();
                         Conta.ListarConta(c);
                         OperacoesBasicas.Depositar(c);
+                        break;
+                    case "4":
+                        Console.Clear();
+                        Conta.ListarConta(c);
+                        Conta.MostrarSaldo(c);
+                        break;
+                    case "5":
+                        Conta.SomaValorContas(c);
                         break;
                     case "6":
                         Conta.ListarConta(c);
