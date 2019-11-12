@@ -1,0 +1,11 @@
+C:\Users\joelb\OneDrive\Área de Trabalho\Estudos\Banco\bin\Debug\netcoreapp3.0\Banco.exe
+C:\Users\joelb\OneDrive\Área de Trabalho\Estudos\Banco\bin\Debug\netcoreapp3.0\Banco.deps.json
+C:\Users\joelb\OneDrive\Área de Trabalho\Estudos\Banco\bin\Debug\netcoreapp3.0\Banco.runtimeconfig.json
+C:\Users\joelb\OneDrive\Área de Trabalho\Estudos\Banco\bin\Debug\netcoreapp3.0\Banco.runtimeconfig.dev.json
+C:\Users\joelb\OneDrive\Área de Trabalho\Estudos\Banco\bin\Debug\netcoreapp3.0\Banco.dll
+C:\Users\joelb\OneDrive\Área de Trabalho\Estudos\Banco\bin\Debug\netcoreapp3.0\Banco.pdb
+C:\Users\joelb\OneDrive\Área de Trabalho\Estudos\Banco\obj\Debug\netcoreapp3.0\Banco.csprojAssemblyReference.cache
+C:\Users\joelb\OneDrive\Área de Trabalho\Estudos\Banco\obj\Debug\netcoreapp3.0\Banco.AssemblyInfoInputs.cache
+C:\Users\joelb\OneDrive\Área de Trabalho\Estudos\Banco\obj\Debug\netcoreapp3.0\Banco.AssemblyInfo.cs
+C:\Users\joelb\OneDrive\Área de Trabalho\Estudos\Banco\obj\Debug\netcoreapp3.0\Banco.dll
+C:\Users\joelb\OneDrive\Área de Trabalho\Estudos\Banco\obj\Debug\netcoreapp3.0\Banco.pdb
