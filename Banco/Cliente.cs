@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-// Classe com properties de cliente.
+﻿// Classe com properties de cliente.
 
 namespace Banco
 {

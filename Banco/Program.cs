@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
+
+// Class programa onde roda o banco
+
+
 namespace Banco
 {
     class Program
@@ -9,9 +13,19 @@ namespace Banco
         {
             string escolha = "13";
             List<Conta> c = new List<Conta>();
+            OperacoesBasicas OpBasic = new OperacoesBasicas(); 
+            OperacoesSecundarias OpSec = new OperacoesSecundarias();
 
             while (escolha != "12")
             {
+                for (int i = 0; i < c.Count; i++)
+                {
+                    if (c[i].Nome == null || c[i].Nome == " " || c[i].Idade < 18)
+                    {
+                        c.Remove(c[i]);
+                    }
+                }
+
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.White;
 
@@ -35,38 +49,51 @@ namespace Banco
                 switch (escolha)
                 {
                     case "1":
-                        Console.Clear();
                         Conta.CriarConta(c);
                         break;
                     case "2":
                         Console.Clear();
-                        Conta.ListarConta(c);
-                        OperacoesBasicas.Sacar(c);
+                        OpSec.ListarConta(c);
+                        OpBasic.Sacar(c);
                         break;
                     case "3":
-                        Console.Clear();
-                        Conta.ListarConta(c);
-                        OperacoesBasicas.Depositar(c);
+                        OpSec.ListarConta(c);
+                        OpBasic.Depositar(c);
                         break;
                     case "4":
-                        Console.Clear();
-                        Conta.ListarConta(c);
-                        Conta.MostrarSaldo(c);
+                        OpSec.ListarConta(c);
+                        OpSec.MostrarSaldo(c);
                         break;
                     case "5":
-                        Conta.SomaValorContas(c);
+                        OpSec.SomaValorContas(c);
                         break;
                     case "6":
-                        Conta.ListarConta(c);
+                        OpSec.ListarConta(c);
                         Console.Read();
+                        break;
+                    case "7":
+                        OpSec.ListarConta(c);
+                        Conta.AtualizarConta(c);
+                        break;
+                    case "8":
+                        OpSec.ListarConta(c);
+                        Conta.RemoverConta(c);
+                        break;
+                    case "9":
+                        OpSec.ListarConta(c);
+                        OpBasic.Transferir(c);
+                        break;
+                    case "10":
+                        break;
+                    case "11":
+                        OpSec.TotalDeContas(c);
+                        break;
+                    case "12":
                         break;
                     default:
                         break;
                 }
-
-
             }
-
         }
     }
 }

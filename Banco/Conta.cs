@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Banco.TiposDeConta;
-using System.Linq;
 
-
-// Class da abstração de conta
+// Class da abstração de conta com seu CRUD genérico
 
 namespace Banco
 {
@@ -24,16 +21,15 @@ namespace Banco
             if (escolha == 1)
             {
                 ContaCorrente c = new ContaCorrente();
-                c.QTdCC++;
-                c.Numero = c.QTdCC;
-                c.TipoConta = "Conta Corrente";
                 Console.WriteLine("Entre com o Nome do Titular da Conta: ");
                 c.Nome = Console.ReadLine();
                 Console.WriteLine("Entre com a idade do Titular da conta: ");
                 c.Idade = Convert.ToInt32(Console.ReadLine());
                 Console.WriteLine("Entre com o Saldo da Conta: ");
                 c.Saldo = Convert.ToDouble(Console.ReadLine());
+                c.TipoConta = "Conta Corrente";
                 Co.Add(c);
+                c.Numero = Co.Count;
                 Console.WriteLine($"Cliente {c.Nome} criado com sucesso!",
                     Console.ForegroundColor = ConsoleColor.Green);
                 Console.Read();
@@ -41,33 +37,34 @@ namespace Banco
             else if (escolha == 2)
             {
                 ContaPoupanca p = new ContaPoupanca();
-                p.QtdCP++;
-                p.Numero = p.QtdCP;
-                p.TipoConta = "Conta Poupança";
                 Console.WriteLine("Entre com o Nome do Titular da Conta: ");
                 p.Nome = Console.ReadLine();
                 Console.WriteLine("Entre com a idade do Titular da conta: ");
                 p.Idade = Convert.ToInt32(Console.ReadLine());
                 Console.WriteLine("Entre com o Saldo da Conta: ");
                 p.Saldo = Convert.ToDouble(Console.ReadLine());
+                p.TipoConta = "Conta Poupança";
                 Co.Add(p);
+                p.Numero = Co.Count;
                 Console.WriteLine($"Cliente {p.Nome} criado com sucesso!",
                     Console.ForegroundColor = ConsoleColor.Green);
                 Console.Read();
             }
         }
 
-        public static void ListarConta(List<Conta> c)
+        public static void RemoverConta(List<Conta> c)
         {
-            Console.Clear();
-            Console.WriteLine("LISTA DE CONTAS DO BANCO:");
-            for (int i = 0; i < c.Count; i++)
-            {
-                Console.WriteLine($"{c[i].Numero} - {c[i].Nome}");
-            }
+            string escolha;
+
+            Console.WriteLine("Selecione uma Conta:");
+            escolha = Console.ReadLine();
+            c.RemoveAll(c => c.Numero == Convert.ToInt32(escolha));
+            Console.WriteLine($"A conta foi removida com sucesso!",
+                                Console.ForegroundColor = ConsoleColor.Green);
+            Console.Read();
         }
 
-        public static void MostrarSaldo(List<Conta> c)
+        public static void AtualizarConta(List<Conta> c)
         {
             int escolha;
 
@@ -78,31 +75,17 @@ namespace Banco
             {
                 if (c[i].Numero == escolha)
                 {
-                    Console.WriteLine($"O Saldo da Conta Número {c[i].Numero} de {c[i].Nome} é de {c[i].Saldo.ToString("C")}.");
+                    Console.WriteLine("O número não pode ser alterado depois de criado.");
+                    Console.WriteLine($" O Nome do Titular é {c[i].Nome}. Entre com o novo Nome do Titular da Conta: ");
+                    c[i].Nome = Console.ReadLine();
+                    Console.WriteLine($"A idade do Titular é {c[i].Idade}. Entre com a nova idade do Titular da conta: ");
+                    c[i].Idade = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("O Saldo não pode ser alterado depois de criado.");
+                    Console.WriteLine($"Cliente {c[i].Nome} atualizado com sucesso!",
+                            Console.ForegroundColor = ConsoleColor.Green);
                     Console.Read();
-                    break;
                 }
             }
-
         }
-
-
-        public void RemoverConta()
-        {
-
-        }
-
-        public void AtualizarConta()
-        {
-
-        }
-
-        public static void SomaValorContas(List<Conta> c)
-        {
-            Console.Clear();
-            Console.WriteLine($"O Valor total das contas do banco é de: {c.Sum(c => c.Saldo).ToString("C")}");
-            Console.Read();
-        }
-
     }
 }
