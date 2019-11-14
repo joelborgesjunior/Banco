@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Banco.TiposDeConta;
+using System;
 using System.Collections.Generic;
-using Banco.TiposDeConta;
 
 // Class da abstração de conta com seu CRUD genérico
 
@@ -12,42 +12,51 @@ namespace Banco
         {
             int escolha;
 
-            Console.Clear();
-            Console.WriteLine("Selecione o Tipo de Conta:");
-            Console.WriteLine("1 - Conta Corrente");
-            Console.WriteLine("2 - Conta Poupança");
-            escolha = Convert.ToInt32(Console.ReadLine());
+            try
+            {
+                Console.Clear();
+                Console.WriteLine("Selecione o Tipo de Conta:");
+                Console.WriteLine("1 - Conta Corrente");
+                Console.WriteLine("2 - Conta Poupança");
+                escolha = Convert.ToInt32(Console.ReadLine());
 
-            if (escolha == 1)
-            {
-                ContaCorrente c = new ContaCorrente();
-                Console.WriteLine("Entre com o Nome do Titular da Conta: ");
-                c.Nome = Console.ReadLine();
-                Console.WriteLine("Entre com a idade do Titular da conta: ");
-                c.Idade = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine("Entre com o Saldo da Conta: ");
-                c.Saldo = Convert.ToDouble(Console.ReadLine());
-                c.TipoConta = "Conta Corrente";
-                Co.Add(c);
-                c.Numero = Co.Count;
-                Console.WriteLine($"Cliente {c.Nome} criado com sucesso!",
-                    Console.ForegroundColor = ConsoleColor.Green);
-                Console.Read();
+                if (escolha == 1)
+                {
+                    ContaCorrente c = new ContaCorrente();
+                    Console.WriteLine("Entre com o Nome do Titular da Conta: ");
+                    c.Nome = Console.ReadLine();
+                    Console.WriteLine("Entre com a idade do Titular da conta: ");
+                    c.Idade = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Entre com o Saldo da Conta: ");
+                    c.Saldo = Convert.ToDouble(Console.ReadLine());
+                    c.TipoConta = "Conta Corrente";
+                    Co.Add(c);
+                    c.Numero = Co.Count;
+                    Console.WriteLine($"Cliente {c.Nome} criado com sucesso!",
+                        Console.ForegroundColor = ConsoleColor.Green);
+                    Console.Read();
+                }
+                else if (escolha == 2)
+                {
+                    ContaPoupanca p = new ContaPoupanca();
+                    Console.WriteLine("Entre com o Nome do Titular da Conta: ");
+                    p.Nome = Console.ReadLine();
+                    Console.WriteLine("Entre com a idade do Titular da conta: ");
+                    p.Idade = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Entre com o Saldo da Conta: ");
+                    p.Saldo = Convert.ToDouble(Console.ReadLine());
+                    p.TipoConta = "Conta Poupança";
+                    Co.Add(p);
+                    p.Numero = Co.Count;
+                    Console.WriteLine($"Cliente {p.Nome} criado com sucesso!",
+                        Console.ForegroundColor = ConsoleColor.Green);
+                    Console.Read();
+                }
             }
-            else if (escolha == 2)
+            catch (System.FormatException)
             {
-                ContaPoupanca p = new ContaPoupanca();
-                Console.WriteLine("Entre com o Nome do Titular da Conta: ");
-                p.Nome = Console.ReadLine();
-                Console.WriteLine("Entre com a idade do Titular da conta: ");
-                p.Idade = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine("Entre com o Saldo da Conta: ");
-                p.Saldo = Convert.ToDouble(Console.ReadLine());
-                p.TipoConta = "Conta Poupança";
-                Co.Add(p);
-                p.Numero = Co.Count;
-                Console.WriteLine($"Cliente {p.Nome} criado com sucesso!",
-                    Console.ForegroundColor = ConsoleColor.Green);
+                Console.WriteLine($"ERRO: Opção/Formato Inexistente. Operação Cancelada",
+                        Console.ForegroundColor = ConsoleColor.Red);
                 Console.Read();
             }
         }
@@ -68,23 +77,32 @@ namespace Banco
         {
             int escolha;
 
-            Console.WriteLine("Selecione uma Conta:");
-            escolha = Convert.ToInt32(Console.ReadLine());
-
-            for (int i = 0; i < c.Count; i++)
+            try
             {
-                if (c[i].Numero == escolha)
+                Console.WriteLine("Selecione uma Conta:");
+                escolha = Convert.ToInt32(Console.ReadLine());
+
+                for (int i = 0; i < c.Count; i++)
                 {
-                    Console.WriteLine("O número não pode ser alterado depois de criado.");
-                    Console.WriteLine($" O Nome do Titular é {c[i].Nome}. Entre com o novo Nome do Titular da Conta: ");
-                    c[i].Nome = Console.ReadLine();
-                    Console.WriteLine($"A idade do Titular é {c[i].Idade}. Entre com a nova idade do Titular da conta: ");
-                    c[i].Idade = Convert.ToInt32(Console.ReadLine());
-                    Console.WriteLine("O Saldo não pode ser alterado depois de criado.");
-                    Console.WriteLine($"Cliente {c[i].Nome} atualizado com sucesso!",
-                            Console.ForegroundColor = ConsoleColor.Green);
-                    Console.Read();
+                    if (c[i].Numero == escolha)
+                    {
+                        Console.WriteLine("O número não pode ser alterado depois de criado.");
+                        Console.WriteLine($" O Nome do Titular é {c[i].Nome}. Entre com o novo Nome do Titular da Conta: ");
+                        c[i].Nome = Console.ReadLine();
+                        Console.WriteLine($"A idade do Titular é {c[i].Idade}. Entre com a nova idade do Titular da conta: ");
+                        c[i].Idade = Convert.ToInt32(Console.ReadLine());
+                        Console.WriteLine("O Saldo não pode ser alterado depois de criado.");
+                        Console.WriteLine($"Cliente {c[i].Nome} atualizado com sucesso!",
+                                Console.ForegroundColor = ConsoleColor.Green);
+                        Console.Read();
+                    }
                 }
+            }
+            catch (System.FormatException)
+            {
+                Console.WriteLine($"ERRO: Opção/Formato Inexistente. Operação Cancelada",
+                        Console.ForegroundColor = ConsoleColor.Red);
+                Console.Read();
             }
         }
     }

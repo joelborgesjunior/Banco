@@ -13,14 +13,14 @@ namespace Banco
         {
             string escolha = "13";
             List<Conta> c = new List<Conta>();
-            OperacoesBasicas OpBasic = new OperacoesBasicas(); 
+            OperacoesBasicas OpBasic = new OperacoesBasicas();
             OperacoesSecundarias OpSec = new OperacoesSecundarias();
 
             while (escolha != "12")
             {
                 for (int i = 0; i < c.Count; i++)
                 {
-                    if (c[i].Nome == null || c[i].Nome == " " || c[i].Idade < 18)
+                    if (c[i].Nome == string.Empty || c[i].Nome == " " || c[i].Idade < 18)
                     {
                         c.Remove(c[i]);
                     }

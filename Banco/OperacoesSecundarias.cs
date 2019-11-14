@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Banco.Interfaces;
+using System;
 using System.Collections.Generic;
-using Banco.Interfaces;
 using System.Linq;
 
 // Operações Secundárias (Listagem de Contas, Valor somado das contas, Numero de Contas e Mostrar Saldo) 
@@ -38,18 +38,26 @@ namespace Banco
         public void MostrarSaldo(List<Conta> c)
         {
             int escolha;
-
-            Console.WriteLine("Selecione uma Conta:");
-            escolha = Convert.ToInt32(Console.ReadLine());
-
-            for (int i = 0; i < c.Count; i++)
+            try
             {
-                if (c[i].Numero == escolha)
+                Console.WriteLine("Selecione uma Conta:");
+                escolha = Convert.ToInt32(Console.ReadLine());
+
+                for (int i = 0; i < c.Count; i++)
                 {
-                    Console.WriteLine($"O Saldo da Conta Número {c[i].Numero} de {c[i].Nome} é de {c[i].Saldo.ToString("C")}.");
-                    Console.Read();
-                    break;
+                    if (c[i].Numero == escolha)
+                    {
+                        Console.WriteLine($"O Saldo da Conta Número {c[i].Numero} de {c[i].Nome} é de {c[i].Saldo.ToString("C")}.");
+                        Console.Read();
+                        break;
+                    }
                 }
+            }
+            catch (System.FormatException)
+            {
+                Console.WriteLine($"ERRO: Opção/Formato Inexistente. Operação Cancelada",
+                        Console.ForegroundColor = ConsoleColor.Red);
+                Console.Read();
             }
         }
     }
