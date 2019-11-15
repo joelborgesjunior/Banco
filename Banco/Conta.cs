@@ -11,6 +11,7 @@ namespace Banco
         public static void CriarConta(List<Conta> Co)
         {
             int escolha;
+            OperacoesDadosClientes OpCliente = new OperacoesDadosClientes();
 
             try
             {
@@ -27,6 +28,7 @@ namespace Banco
                     c.Nome = Console.ReadLine();
                     Console.WriteLine("Entre com a idade do Titular da conta: ");
                     c.Idade = Convert.ToInt32(Console.ReadLine());
+                    OpCliente.MaiorDeIdade(c.Idade);
                     Console.WriteLine("Entre com o Saldo da Conta: ");
                     c.Saldo = Convert.ToDouble(Console.ReadLine());
                     c.TipoConta = "Conta Corrente";
@@ -43,6 +45,7 @@ namespace Banco
                     p.Nome = Console.ReadLine();
                     Console.WriteLine("Entre com a idade do Titular da conta: ");
                     p.Idade = Convert.ToInt32(Console.ReadLine());
+                    OpCliente.MaiorDeIdade(p.Idade);
                     Console.WriteLine("Entre com o Saldo da Conta: ");
                     p.Saldo = Convert.ToDouble(Console.ReadLine());
                     p.TipoConta = "Conta Poupança";
@@ -53,10 +56,18 @@ namespace Banco
                     Console.Read();
                 }
             }
+
             catch (System.FormatException)
             {
                 Console.WriteLine($"ERRO: Opção/Formato Inexistente. Operação Cancelada",
                         Console.ForegroundColor = ConsoleColor.Red);
+                Console.Read();
+            }
+
+            catch (Exception)
+            {
+                Console.WriteLine("Você não pode abrir uma conta. Você é menor de idade.",
+                    Console.ForegroundColor = ConsoleColor.Red);
                 Console.Read();
             }
         }

@@ -8,6 +8,8 @@ namespace Banco
 {
     public class OperacoesBasicas : IOperacoesBasicas
     {
+        OperacoesDadosClientes OpCliente = new OperacoesDadosClientes();
+
         public void Depositar(List<Conta> c)
         {
             int escolha;
@@ -55,9 +57,11 @@ namespace Banco
                 {
                     if (c[i].Numero == escolha)
                     {
-                        c[i].Saldo -= valor;
+                        c[i].Saldo -= (valor + OpCliente.TaxaSaque(c[i], valor));
                         Console.WriteLine($"Saque de {valor.ToString("C")} feito com sucesso.",
                             Console.ForegroundColor = ConsoleColor.Green);
+                        Console.WriteLine($"Valor da taxa de saque: {OpCliente.TaxaSaque(c[i], valor).ToString("C")}",
+                            Console.ForegroundColor = ConsoleColor.Cyan);
                         Console.WriteLine($"A Conta de {c[i].Nome} agora tem um saldo de {c[i].Saldo.ToString("C")}",
                             Console.ForegroundColor = ConsoleColor.Yellow);
                         Console.Read();
