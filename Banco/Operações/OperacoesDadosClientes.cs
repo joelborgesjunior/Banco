@@ -3,7 +3,7 @@ using System;
 
 // Class com Operações envolvendo dados de cliente
 
-namespace Banco
+namespace Banco.Operações
 {
     public class OperacoesDadosClientes : Cliente, ICliente
     {

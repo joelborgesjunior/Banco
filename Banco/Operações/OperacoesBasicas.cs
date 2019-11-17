@@ -4,33 +4,34 @@ using System.Collections.Generic;
 
 // Classe com as operações básicas de uma Conta (Depositar, Sacar, Transferir)
 
-namespace Banco
+namespace Banco.Operações
 {
     public class OperacoesBasicas : IOperacoesBasicas
     {
-        OperacoesDadosClientes OpCliente = new OperacoesDadosClientes();
-
         public void Depositar(List<Conta> c)
         {
             int escolha;
             double valor;
             try
             {
-                Console.WriteLine("Selecione uma Conta:");
-                escolha = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine("Digite o Valor a ser depositado:");
-                valor = Convert.ToDouble(Console.ReadLine());
-
-                for (int i = 0; i < c.Count; i++)
+                if(c.Count > 0)
                 {
-                    if (c[i].Numero == escolha)
+                    Console.WriteLine("Selecione uma Conta:");
+                    escolha = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Digite o Valor a ser depositado:");
+                    valor = Convert.ToDouble(Console.ReadLine());
+
+                    for (int i = 0; i < c.Count; i++)
                     {
-                        c[i].Saldo += valor;
-                        Console.WriteLine($"Depósito de {valor.ToString("C")} feito com sucesso.",
-                            Console.ForegroundColor = ConsoleColor.Green);
-                        Console.WriteLine($"A Conta de {c[i].Nome} agora tem um saldo de {c[i].Saldo.ToString("C")}",
-                            Console.ForegroundColor = ConsoleColor.Yellow);
-                        break;
+                        if (c[i].Numero == escolha)
+                        {
+                            c[i].Saldo += valor;
+                            Console.WriteLine($"Depósito de {valor.ToString("C")} feito com sucesso.",
+                                Console.ForegroundColor = ConsoleColor.Green);
+                            Console.WriteLine($"A Conta de {c[i].Nome} agora tem um saldo de {c[i].Saldo.ToString("C")}",
+                                Console.ForegroundColor = ConsoleColor.Yellow);
+                            break;
+                        }
                     }
                 }
             }
@@ -44,28 +45,33 @@ namespace Banco
 
         public void Sacar(List<Conta> c)
         {
+            OperacoesDadosClientes OpCliente = new OperacoesDadosClientes();
             int escolha;
             double valor;
+
             try
             {
-                Console.WriteLine("Selecione uma Conta:");
-                escolha = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine("Digite o Valor do saque:");
-                valor = Convert.ToDouble(Console.ReadLine());
-
-                for (int i = 0; i < c.Count; i++)
+                if(c.Count > 0)
                 {
-                    if (c[i].Numero == escolha)
+                    Console.WriteLine("Selecione uma Conta:");
+                    escolha = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Digite o Valor do saque:");
+                    valor = Convert.ToDouble(Console.ReadLine());
+
+                    for (int i = 0; i < c.Count; i++)
                     {
-                        c[i].Saldo -= (valor + OpCliente.TaxaSaque(c[i], valor));
-                        Console.WriteLine($"Saque de {valor.ToString("C")} feito com sucesso.",
-                            Console.ForegroundColor = ConsoleColor.Green);
-                        Console.WriteLine($"Valor da taxa de saque: {OpCliente.TaxaSaque(c[i], valor).ToString("C")}",
-                            Console.ForegroundColor = ConsoleColor.Cyan);
-                        Console.WriteLine($"A Conta de {c[i].Nome} agora tem um saldo de {c[i].Saldo.ToString("C")}",
-                            Console.ForegroundColor = ConsoleColor.Yellow);
-                        Console.Read();
-                        break;
+                        if (c[i].Numero == escolha)
+                        {
+                            c[i].Saldo -= (valor + OpCliente.TaxaSaque(c[i], valor));
+                            Console.WriteLine($"Saque de {valor.ToString("C")} feito com sucesso.",
+                                Console.ForegroundColor = ConsoleColor.Green);
+                            Console.WriteLine($"Valor da taxa de saque: {OpCliente.TaxaSaque(c[i], valor).ToString("C")}",
+                                Console.ForegroundColor = ConsoleColor.Cyan);
+                            Console.WriteLine($"A Conta de {c[i].Nome} agora tem um saldo de {c[i].Saldo.ToString("C")}",
+                                Console.ForegroundColor = ConsoleColor.Yellow);
+                            Console.Read();
+                            break;
+                        }
                     }
                 }
             }
@@ -81,37 +87,42 @@ namespace Banco
         {
             int remetente, destinatario;
             double valor;
+            OperacoesDadosClientes OpCliente = new OperacoesDadosClientes();
             try
             {
-                Console.WriteLine("Selecione uma Conta:");
-                remetente = Convert.ToInt32(Console.ReadLine());
-
-                for (int i = 0; i < c.Count; i++)
+                if(c.Count > 0)
                 {
-                    if (c[i].Numero == remetente)
+                    Console.WriteLine("Selecione uma Conta:");
+                    remetente = Convert.ToInt32(Console.ReadLine());
+
+                    for (int i = 0; i < c.Count; i++)
                     {
-                        Console.WriteLine("Selecione uma Conta destino:");
-                        destinatario = Convert.ToInt32(Console.ReadLine());
-                        for (int j = 0; j < c.Count; j++)
+                        if (c[i].Numero == remetente)
                         {
-                            if (c[j].Numero == destinatario)
+                            Console.WriteLine("Selecione uma Conta destino:");
+                            destinatario = Convert.ToInt32(Console.ReadLine());
+                            for (int j = 0; j < c.Count; j++)
                             {
-                                Console.WriteLine("Digite o Valor do saque:");
-                                valor = Convert.ToDouble(Console.ReadLine());
-                                c[i].Saldo -= valor;
-                                Console.WriteLine($"Saque de {valor.ToString("C")} da conta {c[i].Numero} de " +
-                                    $"{c[i].Nome} feito com sucesso.",
-                                    Console.ForegroundColor = ConsoleColor.Green);
-                                Console.WriteLine($"A Conta de {c[i].Nome} agora tem um saldo de {c[i].Saldo.ToString("C")}",
-                                    Console.ForegroundColor = ConsoleColor.Yellow);
-                                c[j].Saldo += valor;
-                                Console.WriteLine($"Deposito de {valor.ToString("C")} da conta {c[j].Numero} de " +
-                                    $"{c[j].Nome} feito com sucesso.",
-                                    Console.ForegroundColor = ConsoleColor.Green);
-                                Console.WriteLine($"A Conta de {c[j].Nome} agora tem um saldo de {c[j].Saldo.ToString("C")}",
-                                    Console.ForegroundColor = ConsoleColor.Yellow);
-                                Console.Read();
-                                break;
+                                if (c[j].Numero == destinatario)
+                                {
+                                    Console.WriteLine("Digite o Valor do saque:");
+                                    valor = Convert.ToDouble(Console.ReadLine());
+                                    c[i].Saldo -= (valor + OpCliente.TaxaSaque(c[i], valor));
+                                    Console.WriteLine($"Saque de {valor.ToString("C")} feito com sucesso.",
+                                        Console.ForegroundColor = ConsoleColor.Green);
+                                    Console.WriteLine($"Valor da taxa de saque: {OpCliente.TaxaSaque(c[i], valor).ToString("C")}",
+                                        Console.ForegroundColor = ConsoleColor.Cyan);
+                                    Console.WriteLine($"A Conta de {c[i].Nome} agora tem um saldo de {c[i].Saldo.ToString("C")}",
+                                        Console.ForegroundColor = ConsoleColor.Yellow);
+                                    c[j].Saldo += valor;
+                                    Console.WriteLine($"Deposito de {valor.ToString("C")} da conta {c[j].Numero} de " +
+                                        $"{c[j].Nome} feito com sucesso.",
+                                        Console.ForegroundColor = ConsoleColor.Green);
+                                    Console.WriteLine($"A Conta de {c[j].Nome} agora tem um saldo de {c[j].Saldo.ToString("C")}",
+                                        Console.ForegroundColor = ConsoleColor.Yellow);
+                                    Console.Read();
+                                    break;
+                                }
                             }
                         }
                     }

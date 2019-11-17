@@ -5,17 +5,25 @@ using System.Linq;
 
 // Operações Secundárias (Listagem de Contas, Valor somado das contas, Numero de Contas e Mostrar Saldo) 
 
-namespace Banco
+namespace Banco.Operações
 {
     public class OperacoesSecundarias : IOperacoesSecundarias
     {
         public void ListarConta(List<Conta> c)
         {
             Console.Clear();
-            Console.WriteLine("LISTA DE CONTAS DO BANCO:");
-            for (int i = 0; i < c.Count; i++)
+            if (c.Count == 0)
             {
-                Console.WriteLine($"{c[i].Numero} - {c[i].Nome}");
+                Console.WriteLine("NÃO EXISTE CONTAS NESTE BANCO.", 
+                Console.ForegroundColor = ConsoleColor.Red); 
+                Console.Read();
+            } else 
+            {
+                Console.WriteLine("LISTA DE CONTAS DO BANCO:");
+                for (int i = 0; i < c.Count; i++)
+                {
+                    Console.WriteLine($"{c[i].Numero} - {c[i].Nome}");
+                }
             }
         }
 
@@ -30,8 +38,8 @@ namespace Banco
         {
             Console.Clear();
             Console.WriteLine($"O Número total de contas do banco é de {c.Count} contas.");
-            Console.WriteLine($"Sendo: \n {c.Count(c => c.TipoConta == "Conta Corrente")} Contas Corrente, " +
-                $"\n {c.Count(c => c.TipoConta == "Conta Poupança")} Contas Poupança");
+            Console.WriteLine($"Sendo: \n {c.Count(c => c.GetType() == typeof(TiposDeConta.ContaCorrente))}" +
+            $" Contas Corrente, \n {c.Count(c => c.GetType() == typeof(TiposDeConta.ContaPoupanca))} Contas Poupança");
             Console.Read();
         }
 
@@ -59,6 +67,6 @@ namespace Banco
                         Console.ForegroundColor = ConsoleColor.Red);
                 Console.Read();
             }
-        }        
+        }
     }
 }

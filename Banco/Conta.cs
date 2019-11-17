@@ -1,6 +1,7 @@
 ﻿using Banco.TiposDeConta;
 using System;
 using System.Collections.Generic;
+using Banco.Operações;
 
 // Class da abstração de conta com seu CRUD genérico
 
@@ -23,7 +24,7 @@ namespace Banco
 
                 if (escolha == 1)
                 {
-                    ContaCorrente c = new ContaCorrente();
+                    ContaCorrente c = new ContaCorrente();  
                     Console.WriteLine("Entre com o Nome do Titular da Conta: ");
                     c.Nome = Console.ReadLine();
                     Console.WriteLine("Entre com a idade do Titular da conta: ");
@@ -31,7 +32,6 @@ namespace Banco
                     OpCliente.MaiorDeIdade(c.Idade);
                     Console.WriteLine("Entre com o Saldo da Conta: ");
                     c.Saldo = Convert.ToDouble(Console.ReadLine());
-                    c.TipoConta = "Conta Corrente";
                     Co.Add(c);
                     c.Numero = Co.Count;
                     Console.WriteLine($"Cliente {c.Nome} criado com sucesso!",
@@ -48,7 +48,6 @@ namespace Banco
                     OpCliente.MaiorDeIdade(p.Idade);
                     Console.WriteLine("Entre com o Saldo da Conta: ");
                     p.Saldo = Convert.ToDouble(Console.ReadLine());
-                    p.TipoConta = "Conta Poupança";
                     Co.Add(p);
                     p.Numero = Co.Count;
                     Console.WriteLine($"Cliente {p.Nome} criado com sucesso!",
