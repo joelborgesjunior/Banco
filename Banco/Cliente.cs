@@ -8,5 +8,6 @@ namespace Banco
         public string Nome { get; set; }
         public int Idade { get; set; }
         public double Saldo { get; set; }
+        public double GastoTaxas { get; set;}
     }
 }

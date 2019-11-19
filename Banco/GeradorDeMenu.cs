@@ -83,6 +83,7 @@ namespace Banco
                         OpBasic.Transferir(c);
                         break;
                     case "10":
+                        OpSec.SomarImpostos(c);
                         break;
                     case "11":
                         OpSec.TotalDeContas(c);

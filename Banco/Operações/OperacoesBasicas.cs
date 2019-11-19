@@ -42,10 +42,11 @@ namespace Banco.Operações
                 Console.Read();
             }
         }
-
+        
         public void Sacar(List<Conta> c)
         {
             OperacoesDadosClientes OpCliente = new OperacoesDadosClientes();
+            OperacoesSecundarias OpSec = new OperacoesSecundarias();
             int escolha;
             double valor;
 
@@ -67,6 +68,7 @@ namespace Banco.Operações
                                 Console.ForegroundColor = ConsoleColor.Green);
                             Console.WriteLine($"Valor da taxa de saque: {OpCliente.TaxaSaque(c[i], valor).ToString("C")}",
                                 Console.ForegroundColor = ConsoleColor.Cyan);
+                            c[i].GastoTaxas += OpCliente.TaxaSaque(c[i], valor);
                             Console.WriteLine($"A Conta de {c[i].Nome} agora tem um saldo de {c[i].Saldo.ToString("C")}",
                                 Console.ForegroundColor = ConsoleColor.Yellow);
                             Console.Read();
@@ -82,7 +84,7 @@ namespace Banco.Operações
                 Console.Read();
             }
         }
-
+        
         public void Transferir(List<Conta> c)
         {
             int remetente, destinatario;

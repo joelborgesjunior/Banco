@@ -9,7 +9,7 @@ namespace Banco
 {
     public abstract class Conta : Cliente
     {
-        public static void CriarConta(List<Conta> Co)
+       public static void CriarConta(List<Conta> Co)
         {
             int escolha;
             OperacoesDadosClientes OpCliente = new OperacoesDadosClientes();
@@ -20,7 +20,7 @@ namespace Banco
                 Console.WriteLine("Selecione o Tipo de Conta:");
                 Console.WriteLine("1 - Conta Corrente");
                 Console.WriteLine("2 - Conta Poupança");
-                escolha = Convert.ToInt32(Console.ReadLine());
+                escolha = Convert.ToInt32(Console.ReadLine());        
 
                 if (escolha == 1)
                 {

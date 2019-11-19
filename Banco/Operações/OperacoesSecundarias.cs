@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-// Operações Secundárias (Listagem de Contas, Valor somado das contas, Numero de Contas e Mostrar Saldo) 
+// Operações Secundárias (Listagem de Contas, Valor somado das contas, Numero de Contas, Mostrar Saldo, Total de taxas pagas) 
 
 namespace Banco.Operações
 {
@@ -67,6 +67,12 @@ namespace Banco.Operações
                         Console.ForegroundColor = ConsoleColor.Red);
                 Console.Read();
             }
+        }
+
+        public void SomarImpostos(List<Conta> c){
+           Console.Clear();
+           Console.WriteLine($"Valor total de taxas: {c.Sum(x => x.GastoTaxas).ToString("C")}");
+           Console.Read();       
         }
     }
 }
