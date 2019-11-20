@@ -12,7 +12,7 @@ namespace Banco
             
             string escolha = "13";
             List<Conta> c = new List<Conta>();
-            OperacoesBasicas OpBasic = new OperacoesBasicas();
+            Conta Co = new Conta();
             OperacoesSecundarias OpSec = new OperacoesSecundarias();
 
             while (escolha != "12")
@@ -48,16 +48,16 @@ namespace Banco
                 switch (escolha)
                 {
                     case "1":
-                        Conta.CriarConta(c);
+                        OperacoesBasicas.CriarConta(c);
                         break;
                     case "2":
                         Console.Clear();
                         OpSec.ListarConta(c);
-                        OpBasic.Sacar(c);
+                        Co.Sacar(c);
                         break;
                     case "3":
                         OpSec.ListarConta(c);
-                        OpBasic.Depositar(c);
+                        Co.Depositar(c);
                         break;
                     case "4":
                         OpSec.ListarConta(c);
@@ -72,15 +72,15 @@ namespace Banco
                         break;
                     case "7":
                         OpSec.ListarConta(c);
-                        Conta.AtualizarConta(c);
+                        OperacoesBasicas.AtualizarConta(c);
                         break;
                     case "8":
                         OpSec.ListarConta(c);
-                        Conta.RemoverConta(c);
+                        OperacoesBasicas.RemoverConta(c);
                         break;
                     case "9":
                         OpSec.ListarConta(c);
-                        OpBasic.Transferir(c);
+                        Co.Transferir(c);
                         break;
                     case "10":
                         OpSec.SomarImpostos(c);

@@ -6,8 +6,8 @@ namespace Banco.Interfaces
 {
     public interface IOperacoesBasicas
     {
-        public void Sacar(List<Conta> contas);
-        public void Depositar(List<Conta> contas);
-        public void Transferir(List<Conta> contas);
+        public static void CriarConta(List<Conta> Conta) {}
+        public static void RemoverConta(List<Conta> Conta) {}
+        public static void AtualizarConta(List<Conta> Conta) {}
     }
 }

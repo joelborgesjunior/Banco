@@ -7,104 +7,126 @@ using Banco.Operações;
 
 namespace Banco
 {
-    public abstract class Conta : Cliente
+    public class Conta : Cliente
     {
-       public static void CriarConta(List<Conta> Co)
+        public void Depositar(List<Conta> c)
         {
             int escolha;
-            OperacoesDadosClientes OpCliente = new OperacoesDadosClientes();
-
+            double valor;
             try
             {
-                Console.Clear();
-                Console.WriteLine("Selecione o Tipo de Conta:");
-                Console.WriteLine("1 - Conta Corrente");
-                Console.WriteLine("2 - Conta Poupança");
-                escolha = Convert.ToInt32(Console.ReadLine());        
+                if(c.Count > 0)
+                {
+                    Console.WriteLine("Selecione uma Conta:");
+                    escolha = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Digite o Valor a ser depositado:");
+                    valor = Convert.ToDouble(Console.ReadLine());
 
-                if (escolha == 1)
-                {
-                    ContaCorrente c = new ContaCorrente();  
-                    Console.WriteLine("Entre com o Nome do Titular da Conta: ");
-                    c.Nome = Console.ReadLine();
-                    Console.WriteLine("Entre com a idade do Titular da conta: ");
-                    c.Idade = Convert.ToInt32(Console.ReadLine());
-                    OpCliente.MaiorDeIdade(c.Idade);
-                    Console.WriteLine("Entre com o Saldo da Conta: ");
-                    c.Saldo = Convert.ToDouble(Console.ReadLine());
-                    Co.Add(c);
-                    c.Numero = Co.Count;
-                    Console.WriteLine($"Cliente {c.Nome} criado com sucesso!",
-                        Console.ForegroundColor = ConsoleColor.Green);
-                    Console.Read();
-                }
-                else if (escolha == 2)
-                {
-                    ContaPoupanca p = new ContaPoupanca();
-                    Console.WriteLine("Entre com o Nome do Titular da Conta: ");
-                    p.Nome = Console.ReadLine();
-                    Console.WriteLine("Entre com a idade do Titular da conta: ");
-                    p.Idade = Convert.ToInt32(Console.ReadLine());
-                    OpCliente.MaiorDeIdade(p.Idade);
-                    Console.WriteLine("Entre com o Saldo da Conta: ");
-                    p.Saldo = Convert.ToDouble(Console.ReadLine());
-                    Co.Add(p);
-                    p.Numero = Co.Count;
-                    Console.WriteLine($"Cliente {p.Nome} criado com sucesso!",
-                        Console.ForegroundColor = ConsoleColor.Green);
-                    Console.Read();
+                    for (int i = 0; i < c.Count; i++)
+                    {
+                        if (c[i].Numero == escolha)
+                        {
+                            c[i].Saldo += valor;
+                            Console.WriteLine($"Depósito de {valor.ToString("C")} feito com sucesso.",
+                                Console.ForegroundColor = ConsoleColor.Green);
+                            Console.WriteLine($"A Conta de {c[i].Nome} agora tem um saldo de {c[i].Saldo.ToString("C")}",
+                                Console.ForegroundColor = ConsoleColor.Yellow);
+                            break;
+                        }
+                    }
                 }
             }
-
             catch (System.FormatException)
             {
                 Console.WriteLine($"ERRO: Opção/Formato Inexistente. Operação Cancelada",
                         Console.ForegroundColor = ConsoleColor.Red);
                 Console.Read();
             }
-
-            catch (Exception)
-            {
-                Console.WriteLine("Você não pode abrir uma conta. Você é menor de idade.",
-                    Console.ForegroundColor = ConsoleColor.Red);
-                Console.Read();
-            }
         }
-
-        public static void RemoverConta(List<Conta> c)
+        public void Sacar(List<Conta> c)
         {
-            string escolha;
-
-            Console.WriteLine("Selecione uma Conta:");
-            escolha = Console.ReadLine();
-            c.RemoveAll(c => c.Numero == Convert.ToInt32(escolha));
-            Console.WriteLine($"A conta foi removida com sucesso!",
-                                Console.ForegroundColor = ConsoleColor.Green);
-            Console.Read();
-        }
-
-        public static void AtualizarConta(List<Conta> c)
-        {
+            OperacoesDadosClientes OpCliente = new OperacoesDadosClientes();
+            OperacoesSecundarias OpSec = new OperacoesSecundarias();
             int escolha;
+            double valor;
 
             try
             {
-                Console.WriteLine("Selecione uma Conta:");
-                escolha = Convert.ToInt32(Console.ReadLine());
-
-                for (int i = 0; i < c.Count; i++)
+                if(c.Count > 0)
                 {
-                    if (c[i].Numero == escolha)
+                    Console.WriteLine("Selecione uma Conta:");
+                    escolha = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Digite o Valor do saque:");
+                    valor = Convert.ToDouble(Console.ReadLine());
+
+                    for (int i = 0; i < c.Count; i++)
                     {
-                        Console.WriteLine("O número não pode ser alterado depois de criado.");
-                        Console.WriteLine($" O Nome do Titular é {c[i].Nome}. Entre com o novo Nome do Titular da Conta: ");
-                        c[i].Nome = Console.ReadLine();
-                        Console.WriteLine($"A idade do Titular é {c[i].Idade}. Entre com a nova idade do Titular da conta: ");
-                        c[i].Idade = Convert.ToInt32(Console.ReadLine());
-                        Console.WriteLine("O Saldo não pode ser alterado depois de criado.");
-                        Console.WriteLine($"Cliente {c[i].Nome} atualizado com sucesso!",
+                        if (c[i].Numero == escolha)
+                        {
+                            c[i].Saldo -= (valor + OpCliente.TaxaSaque(c[i], valor));
+                            Console.WriteLine($"Saque de {valor.ToString("C")} feito com sucesso.",
                                 Console.ForegroundColor = ConsoleColor.Green);
-                        Console.Read();
+                            Console.WriteLine($"Valor da taxa de saque: {OpCliente.TaxaSaque(c[i], valor).ToString("C")}",
+                                Console.ForegroundColor = ConsoleColor.Cyan);
+                            c[i].GastoTaxas += OpCliente.TaxaSaque(c[i], valor);
+                            Console.WriteLine($"A Conta de {c[i].Nome} agora tem um saldo de {c[i].Saldo.ToString("C")}",
+                                Console.ForegroundColor = ConsoleColor.Yellow);
+                            Console.Read();
+                            break;
+                        }
+                    }
+                }
+            }
+            catch (System.FormatException)
+            {
+                Console.WriteLine($"ERRO: Opção/Formato Inexistente. Operação Cancelada",
+                        Console.ForegroundColor = ConsoleColor.Red);
+                Console.Read();
+            }
+        }
+        public void Transferir(List<Conta> c)
+        {
+            int remetente, destinatario;
+            double valor;
+            OperacoesDadosClientes OpCliente = new OperacoesDadosClientes();
+            try
+            {
+                if(c.Count > 0)
+                {
+                    Console.WriteLine("Selecione uma Conta:");
+                    remetente = Convert.ToInt32(Console.ReadLine());
+
+                    for (int i = 0; i < c.Count; i++)
+                    {
+                        if (c[i].Numero == remetente)
+                        {
+                            Console.WriteLine("Selecione uma Conta destino:");
+                            destinatario = Convert.ToInt32(Console.ReadLine());
+                            for (int j = 0; j < c.Count; j++)
+                            {
+                                if (c[j].Numero == destinatario)
+                                {
+                                    Console.WriteLine("Digite o Valor do saque:");
+                                    valor = Convert.ToDouble(Console.ReadLine());
+                                    c[i].Saldo -= (valor + OpCliente.TaxaSaque(c[i], valor));
+                                    Console.WriteLine($"Saque de {valor.ToString("C")} feito com sucesso.",
+                                        Console.ForegroundColor = ConsoleColor.Green);                                        
+                                    c[i].GastoTaxas += OpCliente.TaxaSaque(c[i], valor);
+                                    Console.WriteLine($"Valor da taxa de saque: {OpCliente.TaxaSaque(c[i], valor).ToString("C")}",
+                                        Console.ForegroundColor = ConsoleColor.Cyan);
+                                    Console.WriteLine($"A Conta de {c[i].Nome} agora tem um saldo de {c[i].Saldo.ToString("C")}",
+                                        Console.ForegroundColor = ConsoleColor.Yellow);
+                                    c[j].Saldo += valor;
+                                    Console.WriteLine($"Deposito de {valor.ToString("C")} da conta {c[j].Numero} de " +
+                                        $"{c[j].Nome} feito com sucesso.",
+                                        Console.ForegroundColor = ConsoleColor.Green);
+                                    Console.WriteLine($"A Conta de {c[j].Nome} agora tem um saldo de {c[j].Saldo.ToString("C")}",
+                                        Console.ForegroundColor = ConsoleColor.Yellow);
+                                    Console.Read();
+                                    break;
+                                }
+                            }
+                        }
                     }
                 }
             }
