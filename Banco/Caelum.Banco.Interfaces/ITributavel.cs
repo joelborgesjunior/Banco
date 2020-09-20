@@ -2,6 +2,6 @@
 {
     public interface ITributavel
     {
-        double CalculaTributo();
+        decimal CalculaTributo();
     }
 }

@@ -6,7 +6,7 @@ namespace Caelum.Banco.Services
     {
          public static bool MaiorDeIdade(int idade)
         {
-            if(idade > 17)
+            if(idade > 16)
             {
                 return true;
             }

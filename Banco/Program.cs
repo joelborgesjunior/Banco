@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using Caelum.Banco.Entities;
+using Caelum.Banco.Db;
 using Caelum.Banco.Services;
 
 namespace Caelum
@@ -11,29 +8,29 @@ namespace Caelum
     {
         static void Main(string[] args)
         {
-            List<Conta> c = new List<Conta>();
-            DevedoresServices ds = new DevedoresServices();
-            ContaServices cs = new ContaServices();
-            TributosServices ts = new TributosServices();
-
             int NumeroDeContas = 0;
             uint NumeroDaConta = 1;
-            double valor;
             string escolha = "0";
+            uint NumeroContaEscolhida = 0;
+
+            ContaServices contaServices = new ContaServices();
+            DevedoresServices devedoresServices = new DevedoresServices();
            
             while (escolha != "12")
             {
-                int esc;
+               devedoresServices.GeraListaDevedor();
 
-                for (int i = 0; i < c.Count; i++)
+                for (int i = 0; i < BancoDeDados.Clientes.Count; i++)
                 {
-                    if (c[i].Nome == null || c[i].Idade < 18 )
-                        c.Remove(c[i]);
+                    if ( BancoDeDados.Clientes[i].Nome == null || 
+                         BancoDeDados.Clientes[i].Idade < 18 ) 
+                    {
+                        BancoDeDados.Clientes.Remove(BancoDeDados.Clientes[i]);
+                    }
                 }
 
-                NumeroDeContas = c.Count;
-                NumeroDaConta = cs.ProximaConta(c);
-                var Lista = ds.GeraListaDevedor(c); 
+                NumeroDeContas = BancoDeDados.Contas.Count;
+                BancoDeDados.ProximaConta(ref NumeroDaConta);
 
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.White;
@@ -55,135 +52,77 @@ namespace Caelum
                 escolha = Console.ReadLine();               
 
                 switch (escolha)
+                
                 {
                     case "1":
-                         Console.Clear();
-                         Console.WriteLine("*****BANCO POR CONSOLE*****");
-                         Console.WriteLine("QUAL TIPO DE CONTA A SER CRIADA:");
-                         Console.WriteLine("1- Conta Corrente");
-                         Console.WriteLine("2- Conta Poupança");
-                         Console.WriteLine("3- Conta Investimento");
-                         escolha = Console.ReadLine();
-                         switch (escolha)
-                         {
-                             case "1":
-                                 ContaCorrente e = new ContaCorrente();
-                                 e.CriarConta(e, ds, NumeroDaConta, "Conta Corrente");                                 
-                                 c.Add(e);                                
-                                 break;
-                             case "2":
-                                 ContaPoupanca d = new ContaPoupanca();
-                                 d.CriarConta(d, ds, NumeroDaConta, "Conta Poupança");
-                                 c.Add(d);
-                                 break;
-                            case "3":
-                                break;
-                             default:
-                                 Console.Clear();
-                                 break;
-                         }
+                         contaServices.CriarConta(NumeroDaConta);
                          break;
                     case "2":
                          Console.Clear();
                          Console.WriteLine("Selecione uma conta:");
-                         cs.ListarContas(c);
-                         esc = Convert.ToInt32(Console.ReadLine());
-                         Console.WriteLine("Digite o valor a ser sacado:");
-                         valor = Convert.ToDouble(Console.ReadLine());
-                         cs.SacarDinheiro(esc, c, valor);
+                         contaServices.ListarContas();
+                         NumeroContaEscolhida = Convert.ToUInt32(Console.ReadLine());
+                         contaServices.Retirada(NumeroContaEscolhida);
                          break;
                     case "3":
                         Console.Clear();
                         Console.WriteLine("Selecione uma conta:");
-                        cs.ListarContas(c);
-                        esc = Convert.ToInt32(Console.ReadLine());
-                        Console.WriteLine("Digite o valor a ser depositado:");
-                        valor = Convert.ToDouble(Console.ReadLine());
-                        cs.DepositarDinheiro(esc, c, valor);
+                        contaServices.ListarContas();
+                        NumeroContaEscolhida = Convert.ToUInt32(Console.ReadLine());                        
+                        contaServices.Deposito(NumeroContaEscolhida);
                         break;
                     case "4": 
                         Console.Clear();
                         Console.WriteLine("Selecione uma conta:");
-                        cs.ListarContas(c);
-                        esc = Convert.ToInt32(Console.ReadLine());
-                        cs.MostrarSaldoConta(c, esc);
+                        contaServices.ListarContas();
+                        NumeroContaEscolhida = Convert.ToUInt32(Console.ReadLine());
+                        contaServices.MostrarSaldoConta(NumeroContaEscolhida);
                         break;
                     case "5":
                         Console.Clear();
-                        cs.SomaTotalContas(c);
+                        contaServices.SomaTotalContas();
                         break;
                     case "6":
-                        Console.Clear();
-                        Console.WriteLine("LISTA COMPLETA DE CONTAS: ");
-                        try 
+                        Console.Clear();                        
+                        if( BancoDeDados.Contas.Count > 0 )
                         {
-                            cs.ListarContas(c);
-                        }
-                        catch(ArgumentOutOfRangeException)
+                            Console.WriteLine("LISTA COMPLETA DE CONTAS: ");
+                            contaServices.ListarContas();
+                        } else 
                         {
-                            Console.WriteLine("Não existe contas neste banco.", Console.ForegroundColor = ConsoleColor.Red);
-                            Console.Read();
+                        Console.WriteLine("Não existe contas neste banco.", Console.ForegroundColor = ConsoleColor.Red);
                         }
                         Console.Read();
                         break;
                     case "7":
                         Console.Clear();
                         Console.WriteLine("Selecione uma conta:");
-                        cs.ListarContas(c);
-                        esc = Convert.ToInt32(Console.ReadLine());
-                        for (int i = 0; i < c.Count; i++)
-                        {
-                            if (i + 1 == esc)
-                            {
-                                cs.AtualizarConta(c, c[i]);
-                                break;
-                            }
-                        }
+                        contaServices.ListarContas();
+                        NumeroContaEscolhida = Convert.ToUInt32(Console.ReadLine());
+                        contaServices.AtualizarConta(NumeroContaEscolhida);
                         break;
                     case "8":
                         Console.Clear();
                         Console.WriteLine("Selecione uma conta para ser deletada:");
-                        cs.ListarContas(c);
-                        esc = Convert.ToInt32(Console.ReadLine());
-                        cs.RemoverConta(c, esc);
+                        contaServices.ListarContas();
+                        NumeroContaEscolhida = Convert.ToUInt32(Console.ReadLine());
+                        contaServices.RemoverConta(NumeroContaEscolhida);
                         break;
                     case "9":
                         Console.Clear();
-                        Console.WriteLine("Selecione uma conta:");
-                        cs.ListarContas(c);
-                        esc = Convert.ToInt32(Console.ReadLine());
-                        Console.WriteLine("Digite o valor a ser transferido:");
-                        valor = Convert.ToInt32(Console.ReadLine());
-                        cs.TransferirDinheiro(esc, c, valor);
+                        Console.WriteLine("Selecione uma conta de origem:");
+                        contaServices.ListarContas();
+                        NumeroContaEscolhida = Convert.ToUInt32(Console.ReadLine());
+                        contaServices.TransferirDinheiro(NumeroContaEscolhida);
                         break;
                     case "10":
                         Console.Clear();                        
-                        for (int i = 0; i < c.Count; i++)
-                        {
-                            if (c[i] is ContaPoupanca)
-                            {
-                                ContaPoupanca cp;
-                                cp = (ContaPoupanca)c[i];
-                                ts.Acumula(cp);
-                            }
-                            else if (c[i] is ContaInvestimento)
-                            {
-                                ContaInvestimento cp;
-                                cp = (ContaInvestimento)c[i];
-                                ts.Acumula(cp);
-                            }
-                        }
-                        Console.WriteLine(Convert.ToString($"Total de Impostos cobrados de todas as contas é: {ts.Total.ToString("C")}"));
-                        Console.Read();
+                        contaServices.CalculoImpostoBanco();
                         break;
                     case "11":
                         Console.Clear();
-                        Console.WriteLine($"O número de contas neste banco é de: {c.Count} contas");
-                        Console.WriteLine($"Sendo:\n {c.Count(x => x.Tipo == "Conta Corrente")} Conta Corrente " +
-                                          $" \n {c.Count(x => x.Tipo == "Conta Poupança")} Conta Poupança");
+                        contaServices.NumeroTotalDeContas();
                         Console.Read();
-                        break;
-                    case "12":
                         break;
                     default:
                         Console.Clear();

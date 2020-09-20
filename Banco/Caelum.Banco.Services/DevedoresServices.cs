@@ -1,37 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Caelum.Banco.Entities;
+using Caelum.Banco.Db;
+using Caelum.Banco.Interfaces;
 
 namespace Caelum.Banco.Services
 {
     public class DevedoresServices
     {
-        HashSet<String> nomes = new HashSet<String>();
+        HashSet<Cliente> ListaDevedores = new HashSet<Cliente>();
 
-        public HashSet<String> GeraListaDevedor(List<Conta> c)
+        public HashSet<Cliente> GeraListaDevedor()
         {
-            for (int i = 0; i < c.Count; i++)
+            for (int i = 0; i < BancoDeDados.Contas.Count; i++)
             {
-                if (c[i].Saldo < 0)
+                if (BancoDeDados.Contas[i].Saldo < 0)
                 {
-                    nomes.Add(c[i].Nome);
+                    ListaDevedores.Add(BancoDeDados.Clientes[i]);
                 }
             }
-            return nomes;
+            return ListaDevedores;
         }
 
         public bool VerificarSeDevedor(string nome)
         {
-            if (nomes.Contains(nome))
+            foreach (var item in ListaDevedores)
             {
-                Console.WriteLine("É Devedor, não pode criar conta");
-                Console.Read();
-                return false;
-            } else
-            {
-                return true;
+                if (item.Nome.Contains(nome))
+                {
+                    Console.WriteLine("É Devedor, não pode criar conta");
+                    Console.Read();
+                    return false;
+                } 
             }
+            return true;
         }
 
 

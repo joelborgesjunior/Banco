@@ -1,26 +1,34 @@
-﻿using System.Collections.Generic;
-
-using Caelum.Banco.Services;
-using Caelum.Banco.Interfaces;
-using Caelum.Banco.Entities;
+﻿using Caelum.Banco.Interfaces;
+using Caelum.Banco.Interfaces.Enums;
 
 namespace Caelum.Banco.Entities
 {
-    public class ContaPoupanca : ContaServices, ITributavel
+    public class ContaPoupanca : IConta, ITributavel
     {
-        public override void SacarDinheiro(int escolha, List<Conta> c, double valor)
-        {
-            base.SacarDinheiro(escolha, c, valor + 0.10);
+        public uint Numero { get; set; }
+        public decimal Saldo { get; set; }
+        public TipoContaEnums Tipo { get; set; }
+        public Cliente Cliente { get; set; }
+
+        public ContaPoupanca(TipoContaEnums tipo, Cliente cliente)
+        {           
+            Tipo = tipo;
+            Cliente = cliente;
         }
 
-        public override void DepositarDinheiro(int escolha, List<Conta> c, double valor)
+        public void SacarDinheiro(decimal valor)
         {
-            base.DepositarDinheiro(escolha, c, valor - 0.10);
+            Saldo -= (valor + 0.10m);
         }
-       
-        public double CalculaTributo()
+
+        public void DepositarDinheiro(decimal valor)
         {
-            return this.Saldo * 0.02;
+             Saldo += (valor - 0.10m);
+        }
+
+        public decimal CalculaTributo()
+        {
+            return this.Saldo * 0.02m;
         }
     }
 }

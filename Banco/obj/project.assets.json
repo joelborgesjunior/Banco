@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Estudos\\Caelum\\Caelum.csproj",
+      "projectUniqueName": "C:\\Users\\joelb\\OneDrive\\Área de Trabalho\\Banco\\Banco\\Caelum.csproj",
       "projectName": "Caelum",
-      "projectPath": "D:\\Estudos\\Caelum\\Caelum.csproj",
+      "projectPath": "C:\\Users\\joelb\\OneDrive\\Área de Trabalho\\Banco\\Banco\\Caelum.csproj",
       "packagesPath": "C:\\Users\\joelb\\.nuget\\packages\\",
-      "outputPath": "D:\\Estudos\\Caelum\\obj\\",
+      "outputPath": "C:\\Users\\joelb\\OneDrive\\Área de Trabalho\\Banco\\Banco\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\joelb\\AppData\\Roaming\\NuGet\\NuGet.Config",
